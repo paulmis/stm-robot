@@ -1,3 +1,8 @@
+#define P_OO 0
+#define P_OX 1
+#define P_XO 2
+#define P_XX 3
+
 /**
  * The line-following algorithm.
  * foward - the PWM speed when moving foward
@@ -7,6 +12,7 @@
  */
 void line(int foward, int turn, int threshold, int wait) {
   static bool last_left = true;
+  static int prev = P_OO;
   static int x = 1.4;
   
   // Get the IFR readouts and check if thresholds were broken
@@ -28,17 +34,17 @@ void line(int foward, int turn, int threshold, int wait) {
       right(turn);
       last_left = false;
     }
-    else if (last_left) left(turn);
-    else right(turn);
+    else if (last_left) right(turn);
+    else left(turn);
     ledOff();
-    delay(75);
+    delay(50);
   } else if (cl) {
-    mtr(turn, 0, 0, 150);
+    mtr(turn, 0, 0, 140);
     ledOn();
     last_left = true;
     delay(10);
   } else if (cr) {
-    mtr(0, 150, turn, 0);
+    mtr(0, 140, turn, 0);
     ledOn();
     last_left = false;
     delay(10);

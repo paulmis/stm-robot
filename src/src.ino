@@ -23,5 +23,5 @@ void setup() {
 }
 
 void loop() {
-  line(170, 255, 700, 2);
+  line(160, 255, 600, 2);
 }
