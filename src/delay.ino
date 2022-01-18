@@ -1,25 +1,24 @@
+#define _T TIMER2_BASE
+#define _T_APB RCC_BASE->APB1ENR
+#define _T_EN RCC_APB1ENR_TIM2EN
+
 /**
  * Sets up the eq. of the Arduino's delay().
- * Uses the TIM7 basic timer.
+ * Uses the TIM2 timer.
  */
 void waitSetup() {
-  // Enable TIM7
-  RCC_BASE->APB1ENR |= RCC_APB1ENR_TIM7ER;
+  // Enable TIM2 (enabled by default)
+  _T_APB |= _T_EN;
 
-  // APB1 is limited to 36MHz
-  // To get microsecond accuracy the perscaler register value needs to
-  // be set to 35 (as per 17.4.7)
-  TIMER7_BASE->PSC = 35;
+  // The SYSCLOCK is already prescaled to us-precision,
+  // therefore disable the timer's prescaler
+  _T->PSC = 10000;
 
-  // Overflow ARR to apply the perscaler change
-  TIMER7_BASE->ARR = 0xFFFF;
+  // Set overflow to max
+  _T->ARR = 0xFFFF;
 
   // Enable the counter (as per 15.4.1)
-  TIMER7_BASE->CR1 = true;
-
-  // Wait for the changes to take effect
-  // The UIF should be set (as per 15.4.5)
-  while (!(TIMER7->SF & TIMER_SR_UIF_BIT));            
+  _T->CR1 |= TIMER_CR1_CEN;      
 }
 
 /**
@@ -27,11 +26,9 @@ void waitSetup() {
  * us - time to sleep (in microseconds)
  */
 void waitu(uint16_t us) {
-  // Reset the counter
-  TIMER7_BASE->CNT = 0;
-
-  // Wait for the counter to reach the desired value
-  while (TIMER7_BASE->CNT < us);
+  // Reset and wait for the counter to reach the desired value
+  _T->CNT = 0;
+  while (_T->CNT < us);
 }
 
 /**

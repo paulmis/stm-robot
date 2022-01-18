@@ -1,4 +1,4 @@
-const int LED = PB0;
+const int LED = PB10;
 
 void ledOn() {
   digitalWrite(LED, HIGH);
@@ -6,9 +6,9 @@ void ledOn() {
 
 void ledBlink(int period) {
   digitalWrite(LED, HIGH);
-  delay(period / 2);
+  wait(period / 2);
   digitalWrite(LED, LOW);
-  delay(period / 2);
+  wait(period / 2);
 }
 
 void ledOff() {
