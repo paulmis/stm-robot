@@ -1,4 +1,4 @@
-#define LED_RATE 200    // in microseconds; should give 0.5Hz toggles
+#define LED_RATE 200000 
 
 extern const int IA1, IB1, IA2, IB2; // motors
 extern const int FR_TRIG, FR_ECHO; // ultrasonic
@@ -23,22 +23,26 @@ void setup() {
   pinMode(ENC_L, INPUT);
   pinMode(ENC_R, INPUT);
 
+  attachInterrupt(digitalPinToInterrupt(ENC_L), countL, FALLING);
+  attachInterrupt(digitalPinToInterrupt(ENC_R), countR, FALLING);
+
+/**
   // Pause the timer while we're configuring it
-    timer.pause();
+  timer.pause();
 
-    // Set up period
-    timer.setPeriod(LED_RATE); // in microseconds
+  // Set up period
+  timer.setPeriod(LED_RATE); // in microseconds
 
-    // Set up an interrupt on channel 1
-    timer.setChannel1Mode(TIMER_OUTPUT_COMPARE);
-    timer.setCompare(TIMER_CH1, 1);  // Interrupt 1 count after each update
-    timer.attachCompare1Interrupt(handler_led);
+  // Set up an interrupt on channel 1
+  timer.setChannel1Mode(TIMER_OUTPUT_COMPARE);
+  timer.setCompare(TIMER_CH1, 1);  // Interrupt 1 count after each update
+  timer.attachCompare1Interrupt(handler_led);
 
-    // Refresh the timer's count, prescale, and overflow
-    timer.refresh();
+  // Refresh the timer's count, prescale, and overflow
+  timer.refresh();
 
-    // Start the timer counting
-    timer.resume();
+  // Start the timer counting
+  timer.resume();**/
 }
 
 bool lastOn = false;
@@ -49,6 +53,6 @@ void handler_led(void) {
 }
 
 void loop() {
-  Serial.println(TIMER2_BASE->PSC);
-  delay(500);
+  travel(150, 1.0);
+  delay(1500);
 }
