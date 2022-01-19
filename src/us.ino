@@ -2,13 +2,14 @@ const int FR_TRIG = PB4; // front trigger
 const int FR_ECHO = PB3; // front echo
 bool obstaclePresent = false;
 int b, e;
+int lastUltrasonicFront = 0;
 
 /**
  * Returns the current distance (in cm) from an ultrasonic sensor.
  * TRIG - the TRIG GPIO pin
  * ECHO - the ECHO GPIO pin
  */
-int ultrasonic(int TRIG, int ECHO) {
+void ultrasonic(int TRIG, int ECHO) {
   // Clear the TRIG
   digitalWrite(TRIG, LOW);
   delayMicroseconds(2);
@@ -17,9 +18,13 @@ int ultrasonic(int TRIG, int ECHO) {
   digitalWrite(TRIG, HIGH);
   delayMicroseconds(10);
   digitalWrite(TRIG, LOW);
+}
 
-  // Wait for the signal return
-  return pulseIn(ECHO, HIGH) * 0.017;
+inline void ultrasonicFront() {
+  if (millis() - lastUltrasonicFront > 50) {
+    ultrasonic(FR_TRIG, FR_ECHO);
+    lastUltrasonicFront = millis();
+  }
 }
 
 /**

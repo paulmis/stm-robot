@@ -55,6 +55,6 @@ void handler_led(void) {
 }
 
 void loop() {
-  travel(220, 150, 2, 1.0);
+  travel(220, 100, 2, 1.0);
   delay(2000);
 }

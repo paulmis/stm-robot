@@ -49,7 +49,7 @@ void travel(int speed, int distance, int lead, float dx) {
         ledOff();
       }
     }
+    ultrasonicFront();
   }
-
   freeze();
 }
