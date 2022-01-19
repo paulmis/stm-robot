@@ -12,6 +12,8 @@ inline void right(int speed) { mtr(0, speed, speed, 0); }
 inline void rightonly(int speed) { mtr(0, speed, 0, 0); }
 inline void freeze() { mtr(0, 0, 0, 0); }
 
+extern bool obstaclePresent;
+
 /** 
  *  Sets the h-bridge signals.
  *  ia1, ib1 -> motor 1
@@ -27,24 +29,25 @@ void mtr(int ia1, int ib1, int ia2, int ib2) {
 void travel(int speed, int distance, int lead, float dx) {
   resetRot();
  
-  while ((int)getDistanceTraveledL() < min(distance - lead, 5)) {
-    fowards(255);
-  }
-
   while ((int)getDistanceTraveledL() < distance - lead) {
-    float dl = (float)distance + lead - getDistanceTraveledL(),
-          dr = (float)distance + lead - getDistanceTraveledR();
-    if (getDistanceTraveledL() - getDistanceTraveledR() > dx) {
-      rightonly(speed - max(0.0, 26.0 - dr) * 3);
-      ledOn();
-    }
-    else if (getDistanceTraveledR() - getDistanceTraveledL() > dx) {
-      leftonly(speed - max(0.0, 26.0 - dl) * 3);
-      ledOn();
-    }
+    if (obstaclePresent)
+      freeze();
     else {
-      fowards(speed - max(0.0, 26.0 - dl) * 3, speed - max(0.0, 26.0 - dr) * 3);
-      ledOff();
+      int l = speed - max(0.0, 26.0 - (float)distance + lead - getDistanceTraveledL()) * 3;
+      int r = speed - max(0.0, 26.0 - (float)distance + lead - getDistanceTraveledR()) * 3;
+
+      if (getDistanceTraveledL() - getDistanceTraveledR() > dx) {
+        rightonly(r);
+        ledOn();
+      }
+      else if (getDistanceTraveledR() - getDistanceTraveledL() > dx) {
+        leftonly(l);
+        ledOn();
+      }
+      else {
+        fowards(l, r);
+        ledOff();
+      }
     }
   }
 

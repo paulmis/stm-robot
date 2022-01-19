@@ -26,6 +26,8 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENC_L), countL, FALLING);
   attachInterrupt(digitalPinToInterrupt(ENC_R), countR, FALLING);
 
+  attachInterrupt(digitalPinToInterrupt(FR_ECHO), frontStopCallback, CHANGE);
+
 /**
   // Pause the timer while we're configuring it
   timer.pause();
@@ -53,6 +55,6 @@ void handler_led(void) {
 }
 
 void loop() {
-  travel(150, 1.0);
-  delay(1500);
+  travel(220, 150, 2, 1.0);
+  delay(2000);
 }
