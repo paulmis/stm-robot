@@ -1,10 +1,11 @@
 #define LED_RATE 200000 
 
 extern const int IA1, IB1, IA2, IB2; // motors
-extern const int FR_TRIG, FR_ECHO; // ultrasonic
+extern const int FR_TRIG, FR_ECHO, SI_TRIG, SI_ECHO; // ultrasonic
 extern const int IFR_L, IFR_R; // infrared
 extern const int ENC_L, ENC_R; // speed encoders
 extern const int LED;
+extern int sideDistance;
 
 HardwareTimer timer(2);
 
@@ -18,6 +19,8 @@ void setup() {
   pinMode(IB2, OUTPUT);
   pinMode(FR_TRIG, OUTPUT);
   pinMode(FR_ECHO, INPUT);
+  pinMode(SI_TRIG, OUTPUT);
+  pinMode(SI_ECHO, INPUT);
   pinMode(IFR_L, INPUT);
   pinMode(IFR_R, INPUT);
   pinMode(ENC_L, INPUT);
@@ -26,9 +29,10 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENC_L), countL, FALLING);
   attachInterrupt(digitalPinToInterrupt(ENC_R), countR, FALLING);
 
-  attachInterrupt(digitalPinToInterrupt(FR_ECHO), frontStopCallback, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(FR_ECHO), frontUltrasonicCallback, CHANGE);
+  ultrasonicSide();
+  attachInterrupt(digitalPinToInterrupt(SI_ECHO), sideUltrasonicCallback, CHANGE);
 
-/**
   // Pause the timer while we're configuring it
   timer.pause();
 
@@ -44,7 +48,7 @@ void setup() {
   timer.refresh();
 
   // Start the timer counting
-  timer.resume();**/
+  timer.resume();
 }
 
 bool lastOn = false;
@@ -55,6 +59,10 @@ void handler_led(void) {
 }
 
 void loop() {
+  /**
   travel(220, 100, 2, 1.0);
-  delay(2000);
+  delay(2000);**/
+  delay(10);
+  ultrasonicSide();
+  Serial.println(sideDistance);
 }
