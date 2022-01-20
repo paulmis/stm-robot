@@ -37,7 +37,8 @@ void frontUltrasonicCallback() {
     bFront = micros();
   else {
     eFront = micros();
-    obstaclePresent = (float)(eFront - bFront) * 0.017 <= 15.0;
+    frontDistance = (float)(eFront - bFront) * 0.017;
+    obstaclePresent = frontDistance <= 15.0;    
   }
 }
 

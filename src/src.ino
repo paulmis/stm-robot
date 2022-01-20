@@ -62,7 +62,5 @@ void loop() {
   /**
   travel(220, 100, 2, 1.0);
   delay(2000);**/
-  delay(10);
-  ultrasonicSide();
-  Serial.println(sideDistance);
+  platoon(800);
 }
