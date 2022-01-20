@@ -29,6 +29,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENC_L), countL, FALLING);
   attachInterrupt(digitalPinToInterrupt(ENC_R), countR, FALLING);
 
+  ultrasonicFront();
   attachInterrupt(digitalPinToInterrupt(FR_ECHO), frontUltrasonicCallback, CHANGE);
   ultrasonicSide();
   attachInterrupt(digitalPinToInterrupt(SI_ECHO), sideUltrasonicCallback, CHANGE);
@@ -62,5 +63,5 @@ void loop() {
   /**
   travel(220, 100, 2, 1.0);
   delay(2000);**/
-  platoon(800);
+  platoon(600);
 }

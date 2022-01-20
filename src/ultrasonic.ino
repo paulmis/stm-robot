@@ -2,7 +2,7 @@
 const int FR_TRIG = PB4, FR_ECHO = PB3;   // front
 const int SI_TRIG = PB15, SI_ECHO = PB14; // side
 bool obstaclePresent = false;
-int sideDistance;
+int frontDistance, sideDistance;
 
 int bFront, eFront, lastUltrasonicFront = 0;
 int bSide, eSide, lastUltrasonicSide = 0;

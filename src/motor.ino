@@ -8,8 +8,10 @@ inline void fowards(int speedL, int speedR) { mtr(0, speedL, 0, speedR); }
 inline void backwards(int speed) { mtr(speed, 0, speed, 0); }
 inline void left(int speed) { mtr(speed, 0, 0, speed); }
 inline void leftonly(int speed) { mtr(0, 0, 0, speed); }
+inline void leftreverseonly(int speed) { mtr(0, 0, speed, 0); }
 inline void right(int speed) { mtr(0, speed, speed, 0); }
 inline void rightonly(int speed) { mtr(0, speed, 0, 0); }
+inline void rightreverseonly(int speed) { mtr(speed, 0, 0, 0); }
 inline void freeze() { mtr(0, 0, 0, 0); }
 
 extern bool obstaclePresent;
