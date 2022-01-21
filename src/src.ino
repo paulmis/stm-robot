@@ -63,5 +63,5 @@ void loop() {
   /**
   travel(220, 100, 2, 1.0);
   delay(2000);**/
-  platoon(600);
+  //platoon(600);
 }
