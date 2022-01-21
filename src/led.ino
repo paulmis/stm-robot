@@ -6,11 +6,18 @@ void ledOn() {
 
 void ledBlink(int period) {
   digitalWrite(LED, HIGH);
-  wait(period / 2);
+  delay(period / 2);
   digitalWrite(LED, LOW);
-  wait(period / 2);
+  delay(period / 2);
 }
 
 void ledOff() {
   digitalWrite(LED, LOW);
+}
+
+bool lastOn = false;
+void handleLed() {
+    if (lastOn) ledOff();
+    else ledOn();
+    lastOn = !lastOn;
 }

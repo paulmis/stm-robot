@@ -2,25 +2,36 @@
  * Tests the motors (variable speed).
  */
 void demo() {
+  int s, e;
   // Run
-  fowards(150);
-  delay(3500);
+  fowards(170);
+  s = micros();
+  wait(3999, 62999); // 3.5s
+  e = micros();
+  Serial.println(e - s);
 
   // Increase speed
-  for (int speed = 150; speed < 256; speed++) {
+  for (int speed = 170; speed < 256; speed++) {
     fowards(speed);
-    delay(12);
+    wait(11, 59999); // 10ms
   }
 
   // Run
   fowards(255);
-  delay(3500);
+  s = micros();
+  wait(3999, 62999); // 3.5s
+  e = micros();
+  Serial.println(e - s);
 
   // Stop
   for (int speed = 255; speed > 100; speed--) {
     fowards(speed);
-    delay(8);
+    wait(7, 53999); // 6ms
   }
   freeze();
-  delay(1000);
+
+  s = micros();
+  wait(1124, 62999); // 1s
+  e = micros();
+  Serial.println(e - s);
 }

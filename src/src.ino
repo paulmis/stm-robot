@@ -1,5 +1,3 @@
-#define LED_RATE 200000 
-
 extern const int IA1, IB1, IA2, IB2; // motors
 extern const int FR_TRIG, FR_ECHO, SI_TRIG, SI_ECHO; // ultrasonic
 extern const int IFR_L, IFR_R; // infrared
@@ -7,11 +5,13 @@ extern const int ENC_L, ENC_R; // speed encoders
 extern const int LED;
 extern int sideDistance;
 
-HardwareTimer timer(2);
+HardwareTimer timer(3);
 
 void setup() {
+  // Set up serial port
   Serial.begin(9600);
-  
+
+  // Set up GPIO
   pinMode(LED, OUTPUT);
   pinMode(IA1, OUTPUT);
   pinMode(IB1, OUTPUT);
@@ -26,37 +26,28 @@ void setup() {
   pinMode(ENC_L, INPUT);
   pinMode(ENC_R, INPUT);
 
+  // Enable TIM2 (usually enabled by default) [7.3.8]
+  RCC_BASE->APB1ENR |= 1;
+
+  // Interrupts
+  // Attach speed encoder interrupts
   attachInterrupt(digitalPinToInterrupt(ENC_L), countL, FALLING);
   attachInterrupt(digitalPinToInterrupt(ENC_R), countR, FALLING);
 
+  // Attach ultrasonic sensor interrupts
   ultrasonicFront();
   attachInterrupt(digitalPinToInterrupt(FR_ECHO), frontUltrasonicCallback, CHANGE);
   ultrasonicSide();
   attachInterrupt(digitalPinToInterrupt(SI_ECHO), sideUltrasonicCallback, CHANGE);
 
-  // Pause the timer while we're configuring it
+  // Set up the LED
   timer.pause();
-
-  // Set up period
-  timer.setPeriod(LED_RATE); // in microseconds
-
-  // Set up an interrupt on channel 1
+  timer.setPeriod(200000);
   timer.setChannel1Mode(TIMER_OUTPUT_COMPARE);
-  timer.setCompare(TIMER_CH1, 1);  // Interrupt 1 count after each update
-  timer.attachCompare1Interrupt(handler_led);
-
-  // Refresh the timer's count, prescale, and overflow
+  timer.setCompare(TIMER_CH1, 1);
+  timer.attachCompare1Interrupt(handleLed);
   timer.refresh();
-
-  // Start the timer counting
   timer.resume();
-}
-
-bool lastOn = false;
-void handler_led(void) {
-    if (lastOn) ledOff();
-    else ledOn();
-    lastOn = !lastOn;
 }
 
 void loop() {
@@ -65,5 +56,5 @@ void loop() {
   // 3. line(160, 255, 600, 2);
   // 4. platoon(600);
   // 5. travel(220, 100, 2, 1.0);
-  demo();  
+  demo();
 }
