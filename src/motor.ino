@@ -28,9 +28,19 @@ void mtr(int ia1, int ib1, int ia2, int ib2) {
   analogWrite(IB2, ib2);
 }
 
+/**
+ * Travels the specified distance, moving in a straight-ish line.
+ * speed - pwm cycle duty
+ * distance - the distance to travel in cm
+ * lead - the length of the slide at the end (depends on the surface)
+ * dx - the threshold at which the direction correction should take place
+ *      compared to the distance traveled by each of the wheels
+ */
 void travel(int speed, int distance, int lead, float dx) {
+  // Reset distance traveled counter
   resetRot();
- 
+
+  // Logic
   while ((int)getDistanceTraveledL() < distance - lead) {
     if (obstaclePresent)
       freeze();
@@ -53,5 +63,7 @@ void travel(int speed, int distance, int lead, float dx) {
     }
     ultrasonicFront();
   }
+
+  // Stop the vehicle
   freeze();
 }

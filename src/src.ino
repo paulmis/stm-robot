@@ -60,8 +60,10 @@ void handler_led(void) {
 }
 
 void loop() {
-  /**
-  travel(220, 100, 2, 1.0);
-  delay(2000);**/
-  //platoon(600);
+  // 1. demo();
+  // 2. in 5.
+  // 3. line(160, 255, 600, 2);
+  // 4. platoon(600);
+  // 5. travel(220, 100, 2, 1.0);
+  demo();  
 }
