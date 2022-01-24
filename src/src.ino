@@ -5,8 +5,6 @@ extern const int ENC_L, ENC_R; // speed encoders
 extern const int LED;
 extern int sideDistance;
 
-HardwareTimer timer(3);
-
 void setup() {
   // Set up serial port
   Serial.begin(9600);
@@ -33,21 +31,11 @@ void setup() {
   // Attach speed encoder interrupts
   attachInterrupt(digitalPinToInterrupt(ENC_L), countL, FALLING);
   attachInterrupt(digitalPinToInterrupt(ENC_R), countR, FALLING);
-
   // Attach ultrasonic sensor interrupts
   ultrasonicFront();
   attachInterrupt(digitalPinToInterrupt(FR_ECHO), frontUltrasonicCallback, CHANGE);
   ultrasonicSide();
   attachInterrupt(digitalPinToInterrupt(SI_ECHO), sideUltrasonicCallback, CHANGE);
-
-  // Set up the LED
-  timer.pause();
-  timer.setPeriod(200000);
-  timer.setChannel1Mode(TIMER_OUTPUT_COMPARE);
-  timer.setCompare(TIMER_CH1, 1);
-  timer.attachCompare1Interrupt(handleLed);
-  timer.refresh();
-  timer.resume();
 }
 
 void loop() {

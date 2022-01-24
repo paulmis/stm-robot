@@ -14,11 +14,6 @@ void countL() {
     ROT_L++;
     time_l = micros();
   }
-  
-  Serial.print("L: ");
-  Serial.print(3.14 * 6.5 / 40 * ROT_L);
-  Serial.print(" R: ");
-  Serial.println(3.14 * 6.5 / 40 * ROT_R);
 }
 
 void countR() {
@@ -26,11 +21,6 @@ void countR() {
     ROT_R++;
     time_r = micros();
   }
-
-  Serial.print("L: ");
-  Serial.print(3.14 * 6.5 / 40 * ROT_L);
-  Serial.print(" R: ");
-  Serial.println(3.14 * 6.5 / 40 * ROT_R);
 }
 
 double getDistanceTraveledL() {
