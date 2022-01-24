@@ -66,4 +66,5 @@ void travel(int speed, int distance, int lead, float dx) {
 
   // Stop the vehicle
   freeze();
+  delay(60000);
 }

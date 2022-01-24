@@ -11,6 +11,10 @@ void line(int foward, int turn, int threshold, int wait) {
   
   // Get the IFR readouts and check if thresholds were broken
   int l = ifr(IFR_L), r = ifr(IFR_R);
+  Serial.print("L ");
+  Serial.println(l);
+  Serial.print("R ");
+  Serial.print(r);
   bool cl = l > threshold, cr = r > threshold; 
   
   // Logic

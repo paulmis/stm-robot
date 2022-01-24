@@ -1,4 +1,4 @@
-/**
+ /**
  * Sets the TIM2 period. The prescaler and overflow values need to be calculted.
  */
 void setPeriod(uint16_t PSC, uint16_t ARR) {
