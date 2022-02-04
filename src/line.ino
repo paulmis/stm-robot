@@ -12,13 +12,8 @@ void line(int foward, int turn, int threshold, int wait) {
   // Get the IFR readouts and check if thresholds were broken
   int l = ifr(IFR_L), r = ifr(IFR_R);
   bool cl = l > threshold, cr = r > threshold; 
-
-  // Print plot data
-  Serial.print("Left: ");
-  Serial.print(l);
-  Serial.print(", Right: ");
-  Serial.println(r);
-
+  
+  // Logic
   if (cl && cr) {
     if ((float)l / r > x) {
       left(turn);
@@ -28,23 +23,19 @@ void line(int foward, int turn, int threshold, int wait) {
       right(turn);
       last_left = false;
     }
-    else if (last_left) left(turn);
-    else right(turn);
-    ledOff();
-    delay(75);
+    else if (last_left) right(turn);
+    else left(turn);
+    delay(50);
   } else if (cl) {
-    mtr(turn, 0, 0, 150);
-    ledOn();
+    mtr(turn, 0, 0, 140);
     last_left = true;
     delay(10);
   } else if (cr) {
-    mtr(0, 150, turn, 0);
-    ledOn();
+    mtr(0, 140, turn, 0);
     last_left = false;
     delay(10);
   } else {
     fowards(foward);
-    ledOn();
   }
   
   delay(wait);

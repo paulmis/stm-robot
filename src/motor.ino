@@ -4,10 +4,17 @@ const int IB2 = PB8; // motor 2 (backwards)
 const int IA2 = PB9; // motor 2 (fowards)
 
 inline void fowards(int speed) { mtr(0, speed, 0, speed); }
+inline void fowards(int speedL, int speedR) { mtr(0, speedL, 0, speedR); }
 inline void backwards(int speed) { mtr(speed, 0, speed, 0); }
 inline void left(int speed) { mtr(speed, 0, 0, speed); }
+inline void leftonly(int speed) { mtr(0, 0, 0, speed); }
+inline void leftreverseonly(int speed) { mtr(0, 0, speed, 0); }
 inline void right(int speed) { mtr(0, speed, speed, 0); }
+inline void rightonly(int speed) { mtr(0, speed, 0, 0); }
+inline void rightreverseonly(int speed) { mtr(speed, 0, 0, 0); }
 inline void freeze() { mtr(0, 0, 0, 0); }
+
+extern bool obstaclePresent;
 
 /** 
  *  Sets the h-bridge signals.

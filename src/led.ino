@@ -1,4 +1,4 @@
-const int LED = PB0;
+const int LED = PB10;
 
 void ledOn() {
   digitalWrite(LED, HIGH);
@@ -13,4 +13,11 @@ void ledBlink(int period) {
 
 void ledOff() {
   digitalWrite(LED, LOW);
+}
+
+bool lastOn = false;
+void handleLed() {
+    if (lastOn) ledOff();
+    else ledOn();
+    lastOn = !lastOn;
 }
